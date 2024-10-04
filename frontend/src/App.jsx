@@ -4,7 +4,7 @@ import HomePage from './components/HomePage';
 import LoginPage from './components/LoginPage'; 
 import SignUpPage from './components/SignUpPage';
 import ForgotPasswordPage from './components/ForgotPasswordPage';
-import CreatePostPage from './components/CreatePostPage'; // Import Create Post
+// import CreatePostPage from './components/CreatePostPage'; // Import Create Post
 import PostDetailsPage from './components/PostDetailsPage'; // Import Post Details
 
 function App() {
@@ -36,10 +36,10 @@ function App() {
           path="/forgot-password"
           element={<ForgotPasswordPage />}
         />
-        <Route
+        {/* <Route
           path="/create"
           element={isLoggedIn ? <CreatePostPage /> : <Navigate to="/login" />} // Protected Route
-        />
+        /> */}
         <Route
           path="/entries/:id"
           element={isLoggedIn ? <PostDetailsPage /> : <Navigate to="/login" />} // Protected Route

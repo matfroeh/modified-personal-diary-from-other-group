@@ -1,4 +1,3 @@
-import React from 'react';  
 import PropTypes from 'prop-types';  
 
 function EntryCard({ entry, onClick }) {  
@@ -9,7 +8,7 @@ function EntryCard({ entry, onClick }) {
       onClick={onClick}  
     >  
       <img  
-        src="https://picsum.photos/200/300" 
+        src={entry.image}
         alt={entry.title}  
         className="h-40 w-full object-cover rounded-md mb-3"  
         onError={(e) => {  

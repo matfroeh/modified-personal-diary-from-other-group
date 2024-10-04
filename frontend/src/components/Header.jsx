@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -35,7 +34,6 @@ function Header({ onAddEntryClick}) {
 
 Header.propTypes = {
   onAddEntryClick: PropTypes.func.isRequired,
-  onLogoutClick: PropTypes.func.isRequired,
 };
 
 export default Header;

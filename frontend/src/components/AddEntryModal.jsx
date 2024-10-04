@@ -1,32 +1,34 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { createPost } from '../services/postService'; // Adjust the import path accordingly
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { createPost } from "../services/postService"; // Adjust the import path accordingly
 
-function AddEntryModal({ isOpen, onClose, onSave, entries }) {
+function AddEntryModal({ setIsModalOpen, entries }) {
   // Add prop validation
   AddEntryModal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    onClose: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
+    setIsModalOpen: PropTypes.func.isRequired,
+    // onClose: PropTypes.func.isRequired,
+    // onSave: PropTypes.func.isRequired,
     entries: PropTypes.array.isRequired,
   };
 
-  const [title, setTitle] = useState('');
-  const [date, setDate] = useState('');
-  const [image, setImage] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [image, setImage] = useState("");
+  const [content, setContent] = useState("");
 
-  const email = JSON.parse(localStorage.getItem('loggedInUser')).email;
-  
+  const email = JSON.parse(localStorage.getItem("loggedInUser")).email;
+
   const handleSave = async () => {
     if (!title || !date || !content) {
-      alert('Please fill in all fields');
+      alert("Please fill in all fields");
       return;
     }
 
     const existingEntry = entries.find((entry) => entry.date === date);
     if (existingEntry) {
-      alert('An entry for this date already exists. Please choose another date.');
+      alert(
+        "An entry for this date already exists. Please choose another date."
+      );
       return;
     }
 
@@ -34,15 +36,17 @@ function AddEntryModal({ isOpen, onClose, onSave, entries }) {
 
     try {
       const response = await createPost(newEntry);
-      onSave(newEntry);
-      onClose();
+      // onSave(newEntry);
+      // onClose();
+      setIsModalOpen(false);
+      console.log("PostResponse:", response);
     } catch (error) {
-      console.error('Error saving the entry:', error);
-      alert('An error occurred while saving the entry. Please try again.');
+      console.error("Error saving the entry:", error);
+      alert("An error occurred while saving the entry. Please try again.");
     }
   };
 
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -77,7 +81,7 @@ function AddEntryModal({ isOpen, onClose, onSave, entries }) {
         <div className="flex justify-end">
           <button
             className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 hover:bg-gray-400 transition-colors"
-            onClick={onClose}
+            onClick={() => setIsModalOpen(false)}
           >
             Cancel
           </button>
