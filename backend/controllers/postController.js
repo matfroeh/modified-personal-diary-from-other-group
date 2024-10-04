@@ -7,7 +7,7 @@ export const getPosts = async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: 'Server error at getPosts' });
   }
 };
 // Get a post by ID
