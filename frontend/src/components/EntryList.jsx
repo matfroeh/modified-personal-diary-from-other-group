@@ -5,16 +5,7 @@ import EntryCard from './EntryCard';
 function EntryList({ entries }) {
   const navigate = useNavigate();
 
-  // Save entries to localStorage
-  // React.useEffect(() => {
-  //   localStorage.setItem('entries', JSON.stringify(entries));
-  // }, [entries]);
-
-  // Log entries to console
-  // console.log('Entries:', entries);
-
   const handleEntryClick = (entry) => {
-    // onEntryClick(entry);
     navigate(`/entries/${entry.id}`);
   };
 
@@ -29,7 +20,6 @@ function EntryList({ entries }) {
 
 EntryList.propTypes = {
   entries: PropTypes.array.isRequired,
-  // onEntryClick: PropTypes.func.isRequired,
 };
 
 export default EntryList;

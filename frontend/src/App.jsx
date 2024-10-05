@@ -1,6 +1,5 @@
 import { useState } from "react";
 import {
-  BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
@@ -10,9 +9,8 @@ import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import SignUpPage from "./components/SignUpPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
-// import CreatePostPage from './components/CreatePostPage'; // Import Create Post
 import AddEntryModal from "./components/AddEntryModal";
-import PostDetailsPage from "./components/PostDetailsPage"; // Import Post Details
+import PostDetailsPage from "./components/PostDetailsPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -27,7 +25,6 @@ function App() {
   };
 
   return (
-    // <Router>
     <>
       <Routes location={background || location}>
         <Route
@@ -39,14 +36,9 @@ function App() {
             element={isLoggedIn ? <AddEntryModal /> : <Navigate to="/login" />} // Protected Route
           />
         </Route>
-
         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        {/* <Route
-          path="/create"
-          element={isLoggedIn ? <CreatePostPage /> : <Navigate to="/login" />} // Protected Route
-        /> */}
         <Route
           path="/entries/:id"
           element={isLoggedIn ? <PostDetailsPage /> : <Navigate to="/login" />} // Protected Route

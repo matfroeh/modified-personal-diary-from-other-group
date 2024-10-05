@@ -1,16 +1,8 @@
 import { useState } from "react";
-// import PropTypes from "prop-types";
-import { createPost } from "../services/postService"; // Adjust the import path accordingly
+import { createPost } from "../services/postService";
 import { useNavigate } from "react-router-dom";
 
 function AddEntryModal() {
-  // Add prop validation
-  // AddEntryModal.propTypes = {
-    // setIsModalOpen: PropTypes.func.isRequired,
-    // onClose: PropTypes.func.isRequired,
-    // onSave: PropTypes.func.isRequired,
-    // entries: PropTypes.array.isRequired,
-  // };
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
@@ -22,22 +14,10 @@ function AddEntryModal() {
       alert("Please fill in all fields");
       return;
     }
-    // Let backend handle this
-    // const existingEntry = entries.find((entry) => entry.date === date);
-    // if (existingEntry) {
-    //   alert(
-    //     "An entry for this date already exists. Please choose another date."
-    //   );
-    //   return;
-    // }
-
     const newEntry = { title, date, image, content };
 
     try {
       const response = await createPost(newEntry);
-      // onSave(newEntry);
-      // onClose();
-      // setIsModalOpen(false);
       console.log("PostResponse:", response);
       navigate(-1);
     } catch (error) {
@@ -45,8 +25,6 @@ function AddEntryModal() {
       alert("An error occurred while saving the entry. Please try again.");
     }
   };
-
-  // if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -81,7 +59,6 @@ function AddEntryModal() {
         <div className="flex justify-end">
           <button
             className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 hover:bg-gray-400 transition-colors"
-            // onClick={() => setIsModalOpen(false)}
             onClick={() => navigate(-1)}
           >
             Cancel

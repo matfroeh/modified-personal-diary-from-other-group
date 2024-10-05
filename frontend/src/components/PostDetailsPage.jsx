@@ -1,6 +1,5 @@
-// src/components/PostDetailsPage.jsx
 import { useEffect, useState } from 'react';
-import { getPostById, deletePost } from '../services/postService'; // Import service
+import { getPostById, deletePost } from '../services/postService';
 import { useParams, Link } from 'react-router-dom';
 
 const PostDetailsPage = () => {
