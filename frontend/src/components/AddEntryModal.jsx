@@ -1,45 +1,45 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { createPost } from "../services/postService"; // Adjust the import path accordingly
+import { useNavigate } from "react-router-dom";
 
-function AddEntryModal({ setIsModalOpen, entries }) {
+function AddEntryModal() {
   // Add prop validation
-  AddEntryModal.propTypes = {
-    setIsModalOpen: PropTypes.func.isRequired,
+  // AddEntryModal.propTypes = {
+    // setIsModalOpen: PropTypes.func.isRequired,
     // onClose: PropTypes.func.isRequired,
     // onSave: PropTypes.func.isRequired,
-    entries: PropTypes.array.isRequired,
-  };
-
+    // entries: PropTypes.array.isRequired,
+  // };
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [content, setContent] = useState("");
-
-  const email = JSON.parse(localStorage.getItem("loggedInUser")).email;
+  const navigate = useNavigate();
 
   const handleSave = async () => {
     if (!title || !date || !content) {
       alert("Please fill in all fields");
       return;
     }
+    // Let backend handle this
+    // const existingEntry = entries.find((entry) => entry.date === date);
+    // if (existingEntry) {
+    //   alert(
+    //     "An entry for this date already exists. Please choose another date."
+    //   );
+    //   return;
+    // }
 
-    const existingEntry = entries.find((entry) => entry.date === date);
-    if (existingEntry) {
-      alert(
-        "An entry for this date already exists. Please choose another date."
-      );
-      return;
-    }
-
-    const newEntry = { email, title, date, image, content };
+    const newEntry = { title, date, image, content };
 
     try {
       const response = await createPost(newEntry);
       // onSave(newEntry);
       // onClose();
-      setIsModalOpen(false);
+      // setIsModalOpen(false);
       console.log("PostResponse:", response);
+      navigate(-1);
     } catch (error) {
       console.error("Error saving the entry:", error);
       alert("An error occurred while saving the entry. Please try again.");
@@ -81,7 +81,8 @@ function AddEntryModal({ setIsModalOpen, entries }) {
         <div className="flex justify-end">
           <button
             className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg mr-2 hover:bg-gray-400 transition-colors"
-            onClick={() => setIsModalOpen(false)}
+            // onClick={() => setIsModalOpen(false)}
+            onClick={() => navigate(-1)}
           >
             Cancel
           </button>

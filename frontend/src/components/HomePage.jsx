@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 import Header from "./Header";
 import EntryList from "./EntryList";
-import AddEntryModal from "./AddEntryModal";
+// import AddEntryModal from "./AddEntryModal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function HomePage() {
   const [entries, setEntries] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   // Fetch posts from the backend when the component mounts or when isModalOpen changes
   useEffect(() => {
     const fetchPosts = async () => {
-      console.log('Fetching entries called...');
-      
+      console.log("Fetching entries called...");
+
       try {
         const response = await fetch("http://localhost:3000/api/entries"); // Fetching posts
         // console.log('Response:', response);
@@ -22,16 +25,20 @@ function HomePage() {
         const data = await response.json(); // Parse the JSON response
         // console.log('Fetched entries:', data); // Log the fetched data
         setEntries(data); // Update the state with fetched entries
-        setIsLoading(false); 
+        setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
       }
     };
 
     fetchPosts(); // Call the fetch function
-  }, [isModalOpen]); // Empty dependency array means this runs once when the component mounts
+  }, [location]); // Empty dependency array means this runs once when the component mounts
 
-  const handleAddEntryClick = () => setIsModalOpen(true);
+  const handleAddEntryClick = () => {
+    navigate("/create", { state: { background: location } });
+  };
+
+  // const handleAddEntryClick = () => setIsModalOpen(true);
   // const handleCloseModal = () => setIsModalOpen(false);
   // const handleSaveEntry = (entry) => {
   //   const updatedEntries = [...entries, entry];
@@ -46,7 +53,6 @@ function HomePage() {
   // const handleEntryClick = (entryId) => {
   //   // Your entry click logic here
   // };
-
 
   return (
     <div className="min-h-screen p-4 bg-gradient-to-b from-red-400 to-gray-700">
@@ -67,14 +73,14 @@ function HomePage() {
         <EntryList entries={entries} />
       )}
 
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <AddEntryModal
           setIsModalOpen={setIsModalOpen}
-          // onClose={handleCloseModal}
-          // onSave={handleSaveEntry}
+          onClose={handleCloseModal}
+          onSave={handleSaveEntry}
           entries={entries}
         />
-      )}
+      )} */}
     </div>
   );
 }
