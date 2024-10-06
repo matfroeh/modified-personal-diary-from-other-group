@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import AuthProvider from "./AuthProvider";
 
 const AuthContext = createContext();
@@ -11,7 +11,7 @@ const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     setAuth(false);
-    AuthProvider.logout();
+    AuthProvider.logout;
     localStorage.setItem("auth", false);
   };
 
@@ -35,11 +35,11 @@ const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider value={{ auth, error, login, logout }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 AuthContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { AuthContextProvider, useAuthContext }
+export { AuthContextProvider, useAuthContext };

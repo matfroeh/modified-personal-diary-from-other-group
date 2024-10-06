@@ -13,9 +13,9 @@ import ProtectedLayout from "./layouts/ProtectedLayout";
 import { AuthContextProvider } from "./context/AuthContextProvider";
 import AuthProvider from "./context/AuthProvider";
 
-// TODO: handle Modal
+// TODO
 // editPage
-// experiment with Router.Form, Router.Submit, Router.Action
+
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -36,6 +36,12 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+        action: async ({ request }) => {
+          const res = await request.formData();
+          const data = Object.fromEntries(res.entries());
+          // console.log("From action:", data);
+          return data;
+        },
         loader: async () => await protectedEntriesLoader(),
         children: [
           {
@@ -64,9 +70,6 @@ function App() {
 export default App;
 
 function protectedEntriesLoader() {
-  // console.log(localStorage.getItem("auth"));
-  // console.log(AuthProvider.isAuthenticated === false);
-
   if (!AuthProvider.isAuthenticated) {
     console.log("redirecting to login");
     return redirect("/login");
