@@ -7,6 +7,7 @@ function AddEntryModal() {
   const [date, setDate] = useState("");
   const [image, setImage] = useState("");
   const [content, setContent] = useState("");
+  // const [form, setForm] = useState({ title: "", date: "", image: "", content: "" }); // continue here
   const navigate = useNavigate();
 
   const handleSave = async () => {
