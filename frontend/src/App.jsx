@@ -16,6 +16,13 @@ import AuthProvider from "./context/AuthProvider";
 // TODO
 // editPage
 
+// General comments:
+// - The Modal component AddEntryModal showing the background of Home while opened is realized just by the use of the Outlet component
+// - The action defined here at the HomePage route is just for demonstration purposes, no real use here.
+//   It works by sending the form data from AddEntryModal to HomePage, specified in the <Form> element of AddEntryModal.
+//   HomePage receives the data through the useActionData hook.
+// - The AuthProvider.js is a lousy attempt to implement authentication without using authContext. It works for its purposes.
+
 const router = createBrowserRouter([
   {
     path: "/login",
