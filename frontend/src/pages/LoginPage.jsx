@@ -1,45 +1,25 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContextProvider";
 
-function LoginPage({ onLogin }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+function LoginPage() {
+  const { login, error } = useAuthContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Get the list of users from localStorage
-    const userList = JSON.parse(localStorage.getItem('users'));
-
-    // Find the user with matching email and password
-    const user = userList.find((user) => user.email === email && user.password === password);
-
-    if (user) {
-      setError('');
-      onLogin();
-      navigate('/');
-      localStorage.setItem('isLoggedIn', true); // Store login status in localStorage
-      localStorage.setItem('loggedInUser', JSON.stringify(user)); // Store logged in user in localStorage
-
-      // Get the list of entries from localStorage for the logged in user
-      const entriesList = JSON.parse(localStorage.getItem(user.email));
-
-      // Display the entries list
-      console.log(entriesList); // Replace this with your desired logic to display the entries list
-    } else {
-      setError('Invalid email or password');
-    }
+    login({ email, password });
+    navigate("/"); 
   };
 
   const handleSignUp = () => {
-    navigate('/signup'); // Navigate to Sign Up page
+    navigate("/signup"); // Navigate to Sign Up page
   };
 
   const handleForgotPassword = () => {
-    navigate('/forgot-password'); // Navigate to Forgot Password page
+    navigate("/forgot-password"); // Navigate to Forgot Password page
   };
 
   return (
@@ -52,9 +32,15 @@ function LoginPage({ onLogin }) {
             className="h-40 w-40"
           />
         </div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Sign In</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Log In
+        </h2>
 
-        {error && <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">{error}</div>}
+        {error && (
+          <div className="bg-red-100 text-red-700 p-2 mb-4 rounded">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <input
@@ -84,8 +70,8 @@ function LoginPage({ onLogin }) {
             className="text-gray-600 hover:text-gray-800"
           >
             Sign Up
-          </button> 
-          | 
+          </button>
+          |
           <button
             onClick={handleForgotPassword}
             className="text-gray-600 hover:text-gray-800 ml-2"
@@ -97,9 +83,5 @@ function LoginPage({ onLogin }) {
     </div>
   );
 }
-
-LoginPage.propTypes = {
-  onLogin: PropTypes.func.isRequired,
-};
 
 export default LoginPage;

@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
-import EntryCard from './EntryCard';
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import EntryCard from "./EntryCard";
 
 function EntryList({ entries }) {
   const navigate = useNavigate();
@@ -10,9 +10,13 @@ function EntryList({ entries }) {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="flex flex-wrap items-center justify-center p-4 gap-4">
       {entries.map((entry) => (
-        <EntryCard key={entry.id} entry={entry} onClick={() => handleEntryClick(entry)} />
+        <EntryCard
+          key={entry.id}
+          entry={entry}
+          onClick={() => handleEntryClick(entry)}
+        />
       ))}
     </div>
   );

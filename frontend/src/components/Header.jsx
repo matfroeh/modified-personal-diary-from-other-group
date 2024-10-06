@@ -15,14 +15,14 @@ function Header({ onAddEntryClick }) {
 
   return (
     <>
-      <div className="flex flex-row justify-around mt-4 mb-6">
-        <div className="w-1/4">
+      <div className="max-w-screen-sm flex flex-row justify-around mt-4 mb-6">
+        <div className="w-1/3 content-center">
           <img
             src="http://i.huffpost.com/gen/2395634/images/o-DIARY-facebook.jpg"
             alt="Login Illustration"
           />
         </div>
-        <div className="content-center">
+        <div className="flex flex-none content-center">
           <header className="">
             <h1 className="text-3xl font-extrabold text-white">My Diary</h1>
             <br />

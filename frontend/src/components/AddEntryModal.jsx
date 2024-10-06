@@ -3,23 +3,28 @@ import { createPost } from "../services/postService";
 import { useNavigate } from "react-router-dom";
 
 function AddEntryModal() {
-  const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
-  const [content, setContent] = useState("");
-  // const [form, setForm] = useState({ title: "", date: "", image: "", content: "" }); // continue here
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    title: "",
+    date: "",
+    image: "",
+    content: "",
+  });
 
-  const handleSave = async () => {
-    if (!title || !date || !content) {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleSave = async () => {   
+    if (Object.keys(form).some((key) => form[key].trim() === "")) {
       alert("Please fill in all fields");
       return;
     }
-    const newEntry = { title, date, image, content };
+    const newEntry = form;
 
     try {
-      const response = await createPost(newEntry);
-      console.log("PostResponse:", response);
+      await createPost(newEntry);
       navigate(-1);
     } catch (error) {
       console.error("Error saving the entry:", error);
@@ -33,29 +38,33 @@ function AddEntryModal() {
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Add New Entry</h2>
         <input
           type="text"
+          name="title"
           placeholder="Title"
           className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={form.title}
+          onChange={(e) => handleChange(e)}
         />
         <input
           type="date"
+          name="date"
           className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
+          value={form.date}
+          onChange={(e) => handleChange(e)}
         />
         <input
           type="text"
+          name="image"
           placeholder="Image URL"
           className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={image}
-          onChange={(e) => setImage(e.target.value)}
+          value={form.image}
+          onChange={(e) => handleChange(e)}
         />
         <textarea
           placeholder="Content"
+          name="content"
           className="w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          value={form.content}
+          onChange={(e) => handleChange(e)}
         ></textarea>
         <div className="flex justify-end">
           <button

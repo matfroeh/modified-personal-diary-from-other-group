@@ -4,7 +4,7 @@ function EntryCard({ entry, onClick }) {
 
   return (  
     <div  
-      className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"  
+      className="max-w-96 w-full bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"  
       onClick={onClick}  
     >  
       <img  
