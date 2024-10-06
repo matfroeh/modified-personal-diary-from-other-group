@@ -1,13 +1,17 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, defer } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import AddEntryModal from "./components/AddEntryModal";
+import AddEntryModal from "./pages/AddEntryModal";
 import PostDetailsPage from "./pages/PostDetailsPage";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import { AuthContextProvider } from "./context/AuthContextProvider";
+// import PostDetailsLoader from "./loader/PostDetailsLoader";
 
+// TODO: handle Modal, loader needs to be protected (export inline functions and check auth before fetching)
+// editPage
+// experiment with Router.Form, Router.Submit, Router.Action
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -26,13 +30,15 @@ const router = createBrowserRouter([
     element: <ProtectedLayout />,
     children: [
       {
-        index: true,
+        path: "/",
         element: <HomePage />,
         loader: async () => fetch(`http://localhost:3000/api/entries`),
-      },
-      {
-        path: "/create",
-        element: <AddEntryModal />,
+        children: [
+          {
+            path: "/create",
+            element: <AddEntryModal />,
+          },
+        ],
       },
       {
         path: "/entries/:id",

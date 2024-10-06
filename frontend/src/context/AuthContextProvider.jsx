@@ -9,7 +9,6 @@ const AuthContextProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   const logout = () => {
-    localStorage.removeItem("isAuthenticated");
     setAuth(false);
   };
 
@@ -24,7 +23,6 @@ const AuthContextProvider = ({ children }) => {
       setError(error.message);
       throw error;
     }
-    localStorage.setItem("isAuthenticated", true);
     setAuth(true);
   };
 
