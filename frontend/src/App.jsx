@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider, defer } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
@@ -7,9 +11,9 @@ import AddEntryModal from "./pages/AddEntryModal";
 import PostDetailsPage from "./pages/PostDetailsPage";
 import ProtectedLayout from "./layouts/ProtectedLayout";
 import { AuthContextProvider } from "./context/AuthContextProvider";
-// import PostDetailsLoader from "./loader/PostDetailsLoader";
+import AuthProvider from "./context/AuthProvider";
 
-// TODO: handle Modal, loader needs to be protected (export inline functions and check auth before fetching)
+// TODO: handle Modal
 // editPage
 // experiment with Router.Form, Router.Submit, Router.Action
 const router = createBrowserRouter([
@@ -32,7 +36,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
-        loader: async () => fetch(`http://localhost:3000/api/entries`),
+        loader: async () => await protectedEntriesLoader(),
         children: [
           {
             path: "/create",
@@ -43,8 +47,7 @@ const router = createBrowserRouter([
       {
         path: "/entries/:id",
         element: <PostDetailsPage />,
-        loader: async ({ params }) =>
-          fetch(`http://localhost:3000/api/entries/${params.id}`),
+        loader: async ({ params }) => protectedDetailsLoader(params),
       },
     ],
   },
@@ -60,39 +63,25 @@ function App() {
 
 export default App;
 
-// const location = useLocation();
-// const background = location.state && location.state.background;
+function protectedEntriesLoader() {
+  // console.log(localStorage.getItem("auth"));
+  // console.log(AuthProvider.isAuthenticated === false);
 
-// const routerOld = createBrowserRouter(
-//   createRoutesFromElements(
-//     <>
-//       <Routes location={background || location}>
-//         <Route
-//           path="/"
-//           element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />}
-//         >
-//           <Route
-//             path="/create"
-//             element={
-//               isLoggedIn ? <AddEntryModal /> : <Navigate to="/login" />
-//             } // Protected Route
-//           />
-//         </Route>
-//         <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-//         <Route path="/signup" element={<SignUpPage />} />
-//         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-//         <Route
-//           path="/entries/:id"
-//           element={
-//             isLoggedIn ? <PostDetailsPage /> : <Navigate to="/login" />
-//           } // Protected Route
-//         />
-//       </Routes>
-//       {background && (
-//         <Routes>
-//           <Route path="/create" element={<AddEntryModal />} />
-//         </Routes>
-//       )}
-//     </>
-//   )
-// );
+  if (!AuthProvider.isAuthenticated) {
+    console.log("redirecting to login");
+    return redirect("/login");
+  } else {
+    console.log("fetching entries");
+    return fetch(`http://localhost:3000/api/entries`);
+  }
+}
+
+function protectedDetailsLoader(params) {
+  if (!AuthProvider.isAuthenticated) {
+    console.log("redirecting to login");
+    return redirect("/login");
+  } else {
+    console.log("fetching details");
+    return fetch(`http://localhost:3000/api/entries/${params.id}`);
+  }
+}

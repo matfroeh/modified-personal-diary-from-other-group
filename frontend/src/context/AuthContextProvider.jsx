@@ -1,15 +1,18 @@
 import { useState, createContext, useContext } from "react";
 import PropTypes from 'prop-types';
+import AuthProvider from "./AuthProvider";
 
 const AuthContext = createContext();
 const useAuthContext = () => useContext(AuthContext);
 
 const AuthContextProvider = ({ children }) => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState(JSON.parse(localStorage.getItem("auth"))); // Needs rework
   const [error, setError] = useState(null);
 
   const logout = () => {
     setAuth(false);
+    AuthProvider.logout();
+    localStorage.setItem("auth", false);
   };
 
   const login = (loginData) => {
@@ -24,6 +27,8 @@ const AuthContextProvider = ({ children }) => {
       throw error;
     }
     setAuth(true);
+    localStorage.setItem("auth", true);
+    AuthProvider.login(user.email);
   };
 
   return (

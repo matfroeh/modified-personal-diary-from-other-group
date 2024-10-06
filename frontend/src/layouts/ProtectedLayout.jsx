@@ -7,9 +7,6 @@ function ProtectedLayout() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(auth);
-  
-
   const handleAddEntryClick = () => {
     navigate("/create", { state: { background: location } });
   };

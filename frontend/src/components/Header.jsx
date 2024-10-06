@@ -1,15 +1,13 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../context/AuthContextProvider";
 
 function Header({ onAddEntryClick }) {
+  const { logout } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogoutClick = () => {
-    const userLoggedIn = JSON.parse(localStorage.getItem("isLoggedIn"));
-    if (userLoggedIn) {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("loggedInUser");
-    }
+    logout();
     navigate("/login");
   };
 
